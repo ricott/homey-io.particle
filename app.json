@@ -1,0 +1,411 @@
+{
+  "id": "io.particle",
+  "version": "0.9.0",
+  "compatibility": ">=2.0.0",
+  "sdk": 2,
+  "name": {
+    "en": "Particle.io"
+  },
+  "tags": {
+    "en": ["particle.io", "particle", "cloud", "iot"]
+  },
+  "description": {
+    "en": "Allows to connect your Particle.io devices to Homey"
+  },
+  "category": [
+    "internet"
+  ],
+  "permissions": [],
+  "images": {
+    "large": "/assets/images/large.png",
+    "small": "/assets/images/small.png"
+  },
+  "author": {
+    "name": "Richard Barkestam",
+    "email": "richard@barkestam.se"
+  },
+  "contributing": {
+    "donate": {
+      "paypal": {
+        "username": "RBarkestam",
+        "currency": "EUR"
+      }
+    }
+  },
+  "capabilities": {
+    "connected": {
+      "title": {
+        "en": "Device connected"
+      },
+      "type": "boolean",
+      "getable": true,
+      "setable": false,
+      "icon": "/drivers/clouddevice/assets/connected.svg"
+    }
+  },
+  "drivers": [
+    {
+      "id": "clouddevice",
+      "class": "other",
+      "name": {
+        "en": "Particle Cloud Device"
+      },
+      "images": {
+        "large": "/drivers/clouddevice/assets/images/large.png",
+        "small": "/drivers/clouddevice/assets/images/small.png"
+      },
+      "capabilities": ["connected"],
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "App settings"
+          },
+          "children": [
+            {
+              "id": "refresh_interval",
+              "type": "number",
+              "label": {
+                "en": "Refresh interval (seconds)"
+              },
+              "value": 60,
+              "min": 5,
+              "max": 3600
+            },
+            {
+              "id": "generate_device_events",
+              "type": "radio",
+              "label": {
+                "en": "Enable device events as a trigger"
+              },
+              "value": "no",
+              "values": [
+                {
+                  "id": "yes",
+                  "label": {
+                    "en": "Yes"
+                  }
+                },
+                {
+                  "id": "no",
+                  "label": {
+                    "en": "No"
+                  }
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Information"
+          },
+          "children": [
+            {
+              "id": "serial_number",
+              "type": "label",
+              "label": {
+                "en": "Serial number"
+              },
+              "value": ""
+            },
+            {
+              "id": "firmware_version",
+              "type": "label",
+              "label": {
+                "en": "Firmware"
+              },
+              "value": ""
+            },
+            {
+              "id": "last_ip_address",
+              "type": "label",
+              "label": {
+                "en": "Last known IP address"
+              },
+              "value": ""
+            },
+            {
+              "id": "last_heard",
+              "type": "label",
+              "label": {
+                "en": "Last seen"
+              },
+              "value": ""
+            }
+          ]
+        }
+      ],
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ]
+    }
+  ],
+  "flow": {
+    "triggers": [
+      {
+        "id": "device_connected",
+        "title": {
+          "en": "Cloud device connected"
+        },
+        "args": [
+          {
+              "name": "device",
+              "type": "device",
+              "filter": "driver_id=clouddevice"
+          }
+        ]
+      },
+      {
+        "id": "device_disconnected",
+        "title": {
+          "en": "Cloud device disconnected"
+        },
+        "args": [
+          {
+              "name": "device",
+              "type": "device",
+              "filter": "driver_id=clouddevice"
+          }
+        ]
+      },
+      {
+        "id": "device_event",
+        "title": {
+            "en": "Device event"
+        },
+        "args": [
+          {
+              "name": "device",
+              "type": "device",
+              "filter": "driver_id=clouddevice"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "event_name",
+            "type": "string",
+            "title": {
+                "en": "Event name"
+            },
+            "example": {
+                "en": "temperature"
+            }
+          },
+          {
+            "name": "event_value",
+            "type": "string",
+            "title": {
+                "en": "Event value"
+            },
+            "example": {
+                "en": "12.1"
+            }
+          }
+        ]
+      },
+      {
+        "id": "a_device_connected",
+        "title": {
+            "en": "Device connected"
+        },
+        "tokens": [
+          {
+            "name": "serial",
+            "type": "string",
+            "title": {
+                "en": "Serial number"
+            },
+            "example": {
+                "en": "PH-NNNNNN-AAAA-N"
+            }
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+                "en": "Device name"
+            },
+            "example": {
+                "en": "Garage door"
+            }
+          },
+          {
+            "name": "ip_address",
+            "type": "string",
+            "title": {
+                "en": "IP address"
+            },
+            "example": {
+                "en": "111.111.111.111"
+            }
+          }
+        ]
+      },
+      {
+        "id": "a_device_disconnected",
+        "title": {
+            "en": "Device disconnected"
+        },
+        "tokens": [
+          {
+            "name": "serial",
+            "type": "string",
+            "title": {
+                "en": "Serial number"
+            },
+            "example": {
+                "en": "PH-NNNNNN-AAAA-N"
+            }
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+                "en": "Which device"
+            },
+            "example": {
+                "en": "Garage door"
+            }
+          },
+          {
+            "name": "ip_address",
+            "type": "string",
+            "title": {
+                "en": "IP Address"
+            },
+            "example": {
+                "en": "111.111.111.111"
+            }
+          }
+        ]
+      }
+    ],
+    "conditions": [
+      {
+        "id":"particle_variable_condition",
+        "title":{
+           "en":"Variable condition !{{|inversed}}"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter":"driver_id=clouddevice"
+          },
+          {
+            "name": "variable",
+            "type": "autocomplete",
+            "title": {
+                "en": "Variable name"
+            }
+          },
+          {
+            "name": "conditionType",
+            "type": "autocomplete",
+            "title": {
+                "en": "Condition type"
+            }
+          },
+          {
+            "name": "conditionValue",
+            "type": "text",
+            "title": {
+                "en": "Argument value"
+            }
+          }
+        ]
+      }
+    ],
+    "actions":  [
+      {
+        "id": "particle_function",
+        "title": {
+          "en": "Call function"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter":"driver_id=clouddevice"
+          },
+          {
+            "type": "autocomplete",
+            "name": "function",
+            "title": {
+                "en": "Function name"
+            }
+          },
+          {
+            "type": "text",
+            "name": "parameter",
+            "title": {
+              "en": "Argument value"
+            }
+          }
+        ]
+      },
+      {
+        "id": "particle_event",
+        "title": {
+          "en": "Publish event"
+        },
+        "args": [
+          {
+            "type": "text",
+            "name": "event_name",
+            "title": {
+                "en": "Event name"
+            },
+            "placeholder": {
+              "en": "/garage/temp"
+            }
+          },
+          {
+            "type": "text",
+            "name": "event_data",
+            "title": {
+                "en": "Event data"
+            },
+            "placeholder": {
+              "en": "19.1"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "event_private",
+            "title": {
+                "en": "Event private"
+            },
+            "value": "true",
+            "values": [
+              {
+                "id": "true",
+                "label": {
+                  "en": "Yes"
+                }
+              },
+              {
+                "id": "false",
+                "label": {
+                  "en": "No"
+                }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
