@@ -1,8 +1,10 @@
 # Particle
 
-Allows to connect your Particle.io devices to Homey
+Allows to connect your Particle.io devices to Homey.
 
 Before adding a particle device you need to go to app settings and enter the API access token. If you don't know where to find the access token this [thread](https://community.particle.io/t/getting-finding-an-access-token/44084) my help.
+
+Devices needs to be online in order to be added to Homey.
 
 ## Triggers
 - Device connected/disconnected

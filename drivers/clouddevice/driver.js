@@ -99,7 +99,7 @@ class CloudDeviceDriver extends Homey.Driver {
 			      case 'number.below':
 			        return Promise.resolve((!isNull && response < conditionValue));
 			    }
-			    return Promise.reject('unknown_conditionType')
+			    return Promise.reject('unknown_conditionType');
 			  })
 			  .catch(Promise.reject);
 		});
@@ -139,9 +139,9 @@ class CloudDeviceDriver extends Homey.Driver {
 
 			  	this.log(`Function response: '${responseValue}' with status '${responseStatus}'`);
 					if (responseStatus === '200') {
-						return true;
+						return Promise.resolve(true);
 					} else {
-						return false;
+						return Promise.reject(`Error_Invoking_Function:Response-Status=${responseStatus}`);
 					}
 			});
 		})
@@ -160,9 +160,9 @@ class CloudDeviceDriver extends Homey.Driver {
 				.then((status) => {
 			  	this.log(`Publish event status: '${status}'`);
 					if (status) {
-						return true;
+						return Promise.resolve(true);
 					} else {
-						return false;
+						return Promise.reject('Error_Publishing_Event');
 					}
 			});
 		});
@@ -181,6 +181,7 @@ class CloudDeviceDriver extends Homey.Driver {
       },
       function(err) {
         self.log("Failed to publish event: " + err);
+				return false;
       }
     );
   }

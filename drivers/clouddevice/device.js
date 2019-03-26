@@ -133,6 +133,11 @@ class CloudDevice extends Homey.Device {
   }
 
   getDeviceVariableValue(variableName) {
+    //If device is offline then we cant invoke a function
+    if (!this.device.info.connected) {
+      return Promise.resolve(null);
+    }
+
     return new Particle().getVariable({ deviceId: this.device.id, name: variableName, auth: Homey.ManagerSettings.get('access_token') })
       .then(function(data) {
         let value = null;
@@ -141,18 +146,30 @@ class CloudDevice extends Homey.Device {
         }
         return value;
       }, function(err) {
-        return err;
+        self.log('Variable call failed: ', err);
+        return null;
       });
   }
 
   callDeviceFunction(functionName, args) {
+    //If device is offline then we cant invoke a function
+    if (!this.device.info.connected) {
+      return Promise.resolve({statusCode: '500'});
+    }
+
     var self = this;
     return new Particle().callFunction({ deviceId: this.device.id, name: functionName, argument: args, auth: Homey.ManagerSettings.get('access_token') })
     .then(
       function(data) {
         return data;
       }, function(err) {
-        self.log('Function call failed: ', err);
+        if (err.status && err.status === '400') {
+          self.log('Device most likely offline');
+          self.log(err.body);
+        } else {
+          self.log('Function call failed: ', err);
+        }
+        return {statusCode: '500'};
     });
   }
 
