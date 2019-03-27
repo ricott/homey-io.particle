@@ -2,5 +2,11 @@
   "settings": {
     "title": "Patricle.io Settings Page",
     "subtitle": "Please enter Particle.io access token"
+  },
+  "error": {
+    "failurePublishEvent": "Error publishing event.",
+    "failureCallFunction": "Error calling function, got HTTP Response Code __responseStatus__.",
+    "errorInConditionValueBoolean": "Argument value '__conditionValue__' doesnt represent a boolean value.",
+    "errorInConditionValueNumber": "Argument value '__conditionValue__' doesnt represent a numeric value."
   }
 }

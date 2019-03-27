@@ -97,8 +97,7 @@ class CloudDevice extends Homey.Device {
   refreshCloudDeviceActionsAndVariables() {
     var self = this;
     this.log('Refreshing device actions and variables');
-    let particle = new Particle();
-    particle.getDevice({ deviceId: this.device.id, auth: Homey.ManagerSettings.get('access_token') })
+    new Particle().getDevice({ deviceId: this.device.id, auth: Homey.ManagerSettings.get('access_token') })
     .then(
       function(data) {
         let device = data.body;
@@ -154,7 +153,7 @@ class CloudDevice extends Homey.Device {
   callDeviceFunction(functionName, args) {
     //If device is offline then we cant invoke a function
     if (!this.device.info.connected) {
-      return Promise.resolve({statusCode: '500'});
+      return Promise.resolve({statusCode: 400});
     }
 
     var self = this;
@@ -163,23 +162,28 @@ class CloudDevice extends Homey.Device {
       function(data) {
         return data;
       }, function(err) {
-        if (err.status && err.status === '400') {
+        if (err.statusCode && err.statusCode === 400) {
           self.log('Device most likely offline');
           self.log(err.body);
         } else {
           self.log('Function call failed: ', err);
         }
-        return {statusCode: '500'};
+        return Promise.resolve({statusCode: err.statusCode || 500});
     });
   }
 
   refreshCloudDeviceStatus() {
     var self = this;
-    let particle = new Particle();
-    particle.getDevice({ deviceId: this.device.id, auth: Homey.ManagerSettings.get('access_token') })
+    new Particle().getDevice({ deviceId: this.device.id, auth: Homey.ManagerSettings.get('access_token') })
       .then(
         function(data) {
           let device = data.body;
+          //If connected change from false to true we should refresh variables and functions
+          if (device.connected && self.isCapabilityValueChanged('connected', device.connected)) {
+            self.log('Device came online, lets refresh variables and functions');
+            self.refreshCloudDeviceActionsAndVariables();
+          }
+
           //Update capabilities of cloud device
           self._updateProperty('connected', device.connected);
 
@@ -205,10 +209,8 @@ class CloudDevice extends Homey.Device {
   }
 
   _updateProperty(key, value) {
-    let oldValue = this.getCapabilityValue(key);
-    //If oldValue===null then it is a newly added device, lets not trigger flows on that
-    if (oldValue !== null && oldValue != value) {
-      this.log(`[${this.getName()}] Updating capability '${key}' from '${oldValue}' to '${value}'`);
+    if (this.isCapabilityValueChanged(key, value)) {
+      this.log(`[${this.getName()}] Updating capability '${key}' from '${this.getCapabilityValue(key)}' to '${value}'`);
       this.setCapabilityValue(key, value);
 
       let tokens = {};
@@ -223,18 +225,25 @@ class CloudDevice extends Homey.Device {
           this.getDriver().triggerFlow(deviceTrigger, tokens, this);
 
           tokens = {
-              //serial: this.device.info.serial_number,
               serial: this.getSettings().serial_number,
               name: this.getName(),
-              //ip_address: this.device.info.last_ip_address
               ip_address: this.getSettings().last_ip_address
           }
           this.getDriver().triggerFlow(conditionTrigger, tokens, this);
       }
     } else {
-      //Update value to show we are doing it in app
-      //this.log(`[${this.getName()}] (NoDiff) Updating capability '${key}' from '${oldValue}' to '${value}'`);
+      //Update value to refresh timestamp in app
       this.setCapabilityValue(key, value);
+    }
+  }
+
+  isCapabilityValueChanged(key, value) {
+    let oldValue = this.getCapabilityValue(key);
+    //If oldValue===null then it is a newly added device, lets not trigger flows on that
+    if (oldValue !== null && oldValue != value) {
+      return true;
+    } else {
+      return false;
     }
   }
 

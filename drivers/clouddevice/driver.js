@@ -62,7 +62,7 @@ class CloudDeviceDriver extends Homey.Driver {
 			    case 'boolean.equals':
 			      this.log('check type boolean', typeof conditionValue, conditionValue === 'false' || conditionValue === 'true');
 			      if (conditionValue !== 'false' && conditionValue !== 'true') {
-							return Promise.reject('condition_value_not_true_or_false');
+							return Promise.reject(Homey.__('error.errorInConditionValueBoolean', { 'conditionValue': conditionValue }));
 						}
 			      break;
 			    case 'number.equals':
@@ -70,7 +70,7 @@ class CloudDeviceDriver extends Homey.Driver {
 			    case 'number.below':
 			      this.log('check type number', typeof conditionValue, !isNaN(conditionValue));
 			      if (isNaN(conditionValue)) {
-							return Promise.reject('condition_value_invalid_number');
+							return Promise.reject(Homey.__('error.errorInConditionValueNumber', { 'conditionValue': conditionValue }));
 						}
 			      break;
 			  }
@@ -132,16 +132,16 @@ class CloudDeviceDriver extends Homey.Driver {
 					if (response && response.body && response.body.return_value !== null) {
 						responseValue = response.body.return_value;
 					}
-					let responseStatus = '500';
+					let responseStatus = 500;
 					if (response && response.statusCode !== null) {
 						responseStatus = response.statusCode;
 					}
 
 			  	this.log(`Function response: '${responseValue}' with status '${responseStatus}'`);
-					if (responseStatus === '200') {
+					if (responseStatus === 200) {
 						return Promise.resolve(true);
 					} else {
-						return Promise.reject(`Error_Invoking_Function:Response-Status=${responseStatus}`);
+						return Promise.reject(Homey.__('error.failureCallFunction', { 'responseStatus': responseStatus }));
 					}
 			});
 		})
@@ -162,7 +162,7 @@ class CloudDeviceDriver extends Homey.Driver {
 					if (status) {
 						return Promise.resolve(true);
 					} else {
-						return Promise.reject('Error_Publishing_Event');
+						return Promise.reject(Homey.__('error.failurePublishEvent'));
 					}
 			});
 		});
@@ -197,7 +197,6 @@ class CloudDeviceDriver extends Homey.Driver {
 		this.log(`Triggering flow '${flow}' with tokens`, tokens);
 		if (this.flowCards[flow] instanceof Homey.FlowCardTriggerDevice) {
 			this.log('- device trigger for ', device.getName());
-			//this.flowCards[flow].trigger(device, tokens, device.device);
 			this.flowCards[flow].trigger(device, tokens);
 		}
 		else if (this.flowCards[flow] instanceof Homey.FlowCardTrigger) {
@@ -229,8 +228,8 @@ class CloudDeviceDriver extends Homey.Driver {
 		      });
 
 		      devices.sort(function(a, b) {
-		  		  var nameA = a.name.toUpperCase(); // ignore upper and lowercase
-		  		  var nameB = b.name.toUpperCase(); // ignore upper and lowercase
+		  		  var nameA = a.name.toUpperCase();
+		  		  var nameB = b.name.toUpperCase();
 		  		  if (nameA < nameB) {
 		  		    return -1;
 		  		  }
@@ -251,19 +250,6 @@ class CloudDeviceDriver extends Homey.Driver {
 				}, null);
 		  }
 		);
-
-/*
-		let particleSession = new Particle({
-			token: Homey.ManagerSettings.get('access_token'),
-			deviceId: null
-		});
-
-		particleSession.listParticleDevices();
-
-		particleSession.on('account_devices_found', devices => {
-			callback(null, devices);
-		});
-*/
 	}
 
 }
