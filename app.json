@@ -1,21 +1,26 @@
 {
   "id": "io.particle",
-  "version": "0.9.2",
-  "compatibility": ">=2.0.0",
+  "version": "0.9.3",
+  "compatibility": ">=3.0.0",
+  "brandColor": "#01b6f1",
   "sdk": 2,
   "name": {
     "en": "Particle.io"
   },
   "tags": {
-    "en": ["particle.io", "particle", "cloud", "iot"]
+    "en": [
+      "particle.io",
+      "particle",
+      "cloud",
+      "iot"
+    ]
   },
   "description": {
-    "en": "Allows to connect your Particle.io devices to Homey"
+    "en": "Connect your Particle.io devices to Homey"
   },
   "category": [
     "internet"
   ],
-  "permissions": [],
   "images": {
     "large": "/assets/images/large.png",
     "small": "/assets/images/small.png"
@@ -32,6 +37,11 @@
       }
     }
   },
+  "bugs": {
+    "url": "https://github.com/ricott/homey-io.particle/issues"
+  },
+  "source": "https://github.com/ricott/homey-io.particle",
+  "homeyCommunityTopicId": 20841,
   "capabilities": {
     "connected": {
       "title": {
@@ -54,7 +64,14 @@
         "large": "/drivers/clouddevice/assets/images/large.png",
         "small": "/drivers/clouddevice/assets/images/small.png"
       },
-      "capabilities": ["connected"],
+      "capabilities": [
+        "connected"
+      ],
+      "energy": {
+        "approximation": {
+          "usageConstant": 1
+        }
+      },
       "settings": [
         {
           "type": "group",
@@ -161,9 +178,9 @@
         },
         "args": [
           {
-              "name": "device",
-              "type": "device",
-              "filter": "driver_id=clouddevice"
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=clouddevice"
           }
         ]
       },
@@ -174,22 +191,22 @@
         },
         "args": [
           {
-              "name": "device",
-              "type": "device",
-              "filter": "driver_id=clouddevice"
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=clouddevice"
           }
         ]
       },
       {
         "id": "device_event",
         "title": {
-            "en": "Device event"
+          "en": "Device event"
         },
         "args": [
           {
-              "name": "device",
-              "type": "device",
-              "filter": "driver_id=clouddevice"
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=clouddevice"
           }
         ],
         "tokens": [
@@ -197,20 +214,20 @@
             "name": "event_name",
             "type": "string",
             "title": {
-                "en": "Event name"
+              "en": "Event name"
             },
             "example": {
-                "en": "temperature"
+              "en": "temperature"
             }
           },
           {
             "name": "event_value",
             "type": "string",
             "title": {
-                "en": "Event value"
+              "en": "Event value"
             },
             "example": {
-                "en": "12.1"
+              "en": "12.1"
             }
           }
         ]
@@ -218,37 +235,37 @@
       {
         "id": "a_device_connected",
         "title": {
-            "en": "Device connected"
+          "en": "Device connected"
         },
         "tokens": [
           {
             "name": "serial",
             "type": "string",
             "title": {
-                "en": "Serial number"
+              "en": "Serial number"
             },
             "example": {
-                "en": "PH-NNNNNN-AAAA-N"
+              "en": "PH-NNNNNN-AAAA-N"
             }
           },
           {
             "name": "name",
             "type": "string",
             "title": {
-                "en": "Device name"
+              "en": "Device name"
             },
             "example": {
-                "en": "Garage door"
+              "en": "Garage door"
             }
           },
           {
             "name": "ip_address",
             "type": "string",
             "title": {
-                "en": "IP address"
+              "en": "IP address"
             },
             "example": {
-                "en": "111.111.111.111"
+              "en": "111.111.111.111"
             }
           }
         ]
@@ -256,37 +273,37 @@
       {
         "id": "a_device_disconnected",
         "title": {
-            "en": "Device disconnected"
+          "en": "Device disconnected"
         },
         "tokens": [
           {
             "name": "serial",
             "type": "string",
             "title": {
-                "en": "Serial number"
+              "en": "Serial number"
             },
             "example": {
-                "en": "PH-NNNNNN-AAAA-N"
+              "en": "PH-NNNNNN-AAAA-N"
             }
           },
           {
             "name": "name",
             "type": "string",
             "title": {
-                "en": "Which device"
+              "en": "Which device"
             },
             "example": {
-                "en": "Garage door"
+              "en": "Garage door"
             }
           },
           {
             "name": "ip_address",
             "type": "string",
             "title": {
-                "en": "IP Address"
+              "en": "IP Address"
             },
             "example": {
-                "en": "111.111.111.111"
+              "en": "111.111.111.111"
             }
           }
         ]
@@ -294,41 +311,41 @@
     ],
     "conditions": [
       {
-        "id":"particle_variable_condition",
-        "title":{
-           "en":"Variable condition !{{|inversed}}"
+        "id": "particle_variable_condition",
+        "title": {
+          "en": "Variable condition !{{|inversed}}"
         },
         "args": [
           {
             "name": "device",
             "type": "device",
-            "filter":"driver_id=clouddevice"
+            "filter": "driver_id=clouddevice"
           },
           {
             "name": "variable",
             "type": "autocomplete",
             "title": {
-                "en": "Variable name"
+              "en": "Variable name"
             }
           },
           {
             "name": "conditionType",
             "type": "autocomplete",
             "title": {
-                "en": "Condition type"
+              "en": "Condition type"
             }
           },
           {
             "name": "conditionValue",
             "type": "text",
             "title": {
-                "en": "Argument value"
+              "en": "Argument value"
             }
           }
         ]
       }
     ],
-    "actions":  [
+    "actions": [
       {
         "id": "particle_function",
         "title": {
@@ -338,13 +355,13 @@
           {
             "name": "device",
             "type": "device",
-            "filter":"driver_id=clouddevice"
+            "filter": "driver_id=clouddevice"
           },
           {
             "type": "autocomplete",
             "name": "function",
             "title": {
-                "en": "Function name"
+              "en": "Function name"
             }
           },
           {
@@ -366,7 +383,7 @@
             "type": "text",
             "name": "event_name",
             "title": {
-                "en": "Event name"
+              "en": "Event name"
             },
             "placeholder": {
               "en": "/garage/temp"
@@ -376,7 +393,7 @@
             "type": "text",
             "name": "event_data",
             "title": {
-                "en": "Event data"
+              "en": "Event data"
             },
             "placeholder": {
               "en": "19.1"
@@ -386,7 +403,7 @@
             "type": "dropdown",
             "name": "event_private",
             "title": {
-                "en": "Event private"
+              "en": "Event private"
             },
             "value": "true",
             "values": [
