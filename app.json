@@ -1,6 +1,6 @@
 {
   "id": "io.particle",
-  "version": "0.9.3",
+  "version": "0.9.4",
   "compatibility": ">=3.0.0",
   "brandColor": "#01b6f1",
   "sdk": 2,
@@ -51,6 +51,45 @@
       "getable": true,
       "setable": false,
       "icon": "/drivers/clouddevice/assets/connected.svg"
+    },
+    "status": {
+      "title": {
+        "en": "Status"
+      },
+      "type": "string",
+      "getable": true,
+      "setable": false,
+      "icon": "/drivers/heater/assets/on_off.svg"
+    },
+    "heater_state": {
+      "type": "string",
+      "title": {
+        "en": "State"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "/drivers/heater/assets/state.svg"
+    },
+    "starts": {
+      "type": "number",
+      "title": {
+        "en": "Starts"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "/drivers/heater/assets/starts.svg"
+    },
+    "runtime": {
+      "type": "string",
+      "title": {
+        "en": "Runtime"
+      },
+      "getable": true,
+      "setable": false,
+      "uiComponent": "sensor",
+      "icon": "/drivers/heater/assets/runtime.svg"
     }
   },
   "drivers": [
@@ -110,6 +149,173 @@
                   }
                 }
               ]
+            }
+          ]
+        },
+        {
+          "type": "group",
+          "label": {
+            "en": "Information"
+          },
+          "children": [
+            {
+              "id": "serial_number",
+              "type": "label",
+              "label": {
+                "en": "Serial number"
+              },
+              "value": ""
+            },
+            {
+              "id": "firmware_version",
+              "type": "label",
+              "label": {
+                "en": "Firmware"
+              },
+              "value": ""
+            },
+            {
+              "id": "last_ip_address",
+              "type": "label",
+              "label": {
+                "en": "Last known IP address"
+              },
+              "value": ""
+            },
+            {
+              "id": "last_heard",
+              "type": "label",
+              "label": {
+                "en": "Last seen"
+              },
+              "value": ""
+            }
+          ]
+        }
+      ],
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ]
+    },
+    {
+      "id": "heater",
+      "class": "heater",
+      "name": {
+        "en": "Heater"
+      },
+      "images": {
+        "large": "/drivers/heater/assets/images/large.png",
+        "small": "/drivers/heater/assets/images/small.png"
+      },
+      "capabilities": [
+        "measure_temperature.outdoor",
+        "measure_temperature.indoor",
+        "heater_state",
+        "measure_temperature.floor_water",
+        "status.compressor",
+        "starts.compressor",
+        "runtime.compressor",
+        "status.fan",
+        "starts.fan",
+        "runtime.fan",
+        "status.immersion_heater",
+        "starts.immersion_heater",
+        "runtime.immersion_heater",
+        "connected"
+      ],
+      "capabilitiesOptions": {
+        "measure_temperature.outdoor": {
+          "title": {
+            "en": "Outdoor"
+          }
+        },
+        "measure_temperature.indoor": {
+          "title": {
+            "en": "Indoor"
+          }
+        },
+        "status.compressor": {
+          "title": {
+            "en": "Compressor"
+          }
+        },
+        "status.fan": {
+          "title": {
+            "en": "Fan"
+          }
+        },
+        "status.immersion_heater": {
+          "title": {
+            "en": "Immersion heater"
+          }
+        },
+        "measure_temperature.floor_water": {
+          "title": {
+            "en": "Floor water"
+          }
+        },
+        "starts.compressor": {
+          "title": {
+            "en": "Compressor starts"
+          }
+        },
+        "runtime.compressor": {
+          "title": {
+            "en": "Compressor avg runtime"
+          }
+        },
+        "starts.fan": {
+          "title": {
+            "en": "Fan starts"
+          }
+        },
+        "runtime.fan": {
+          "title": {
+            "en": "Fan avg runtime"
+          }
+        },
+        "starts.immersion_heater": {
+          "title": {
+            "en": "Immersion heater starts"
+          }
+        },
+        "runtime.immersion_heater": {
+          "title": {
+            "en": "Immersion heater avg runtime"
+          }
+        }
+      },
+      "energy": {
+        "approximation": {
+          "usageConstant": 1
+        }
+      },
+      "settings": [
+        {
+          "type": "group",
+          "label": {
+            "en": "App settings"
+          },
+          "children": [
+            {
+              "id": "refresh_interval",
+              "type": "number",
+              "label": {
+                "en": "Refresh interval (seconds)"
+              },
+              "value": 60,
+              "min": 5,
+              "max": 3600
             }
           ]
         },

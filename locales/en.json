@@ -8,5 +8,12 @@
     "failureCallFunction": "Error calling function, got HTTP Response Code __responseStatus__.",
     "errorInConditionValueBoolean": "Argument value '__conditionValue__' doesnt represent a boolean value.",
     "errorInConditionValueNumber": "Argument value '__conditionValue__' doesnt represent a numeric value."
+  },
+  "heater_state": {
+    "unknown": "Unknown",
+    "disabled": "Disabled",
+    "standard": "Standard",
+    "heating": "Heating",
+    "forced_heating": "Forced heating"
   }
 }
