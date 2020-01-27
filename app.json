@@ -316,6 +316,14 @@
               "value": 60,
               "min": 5,
               "max": 3600
+            },
+            {
+              "id": "data_event_name",
+              "type": "text",
+              "label": {
+                "en": "Particle event name"
+              },
+              "value": "house/ivt/data"
             }
           ]
         },

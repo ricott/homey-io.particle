@@ -11,6 +11,7 @@ class HeaterDevice extends Homey.Device {
 
     this.pollIntervals = [];
     this.refresh_interval = this.getSettings().refresh_interval || 60;
+    this.data_event_name = this.getSettings().data_event_name;
     this.compressorCounter = new EventCounter(24 * 60 * 60 * 1000);
     this.fanCounter = new EventCounter(24 * 60 * 60 * 1000);
     this.immersionHeaterhCounter = new EventCounter(24 * 60 * 60 * 1000);
@@ -44,7 +45,7 @@ class HeaterDevice extends Homey.Device {
   }
 
   onHeaterMessage(self, event) {
-    if (event.name == 'house/ivt/data') {
+    if (event.name == this.data_event_name) {
       //this.log(`Data received: ${event.data}`);
       let data = JSON.parse(event.data);
 
@@ -63,6 +64,8 @@ class HeaterDevice extends Homey.Device {
       self._updateProperty("runtime.fan", self.fanCounter.averageRunTimePretty());
       self._updateProperty("starts.immersion_heater", self.immersionHeaterhCounter.numberOfEvents());
       self._updateProperty("runtime.immersion_heater", self.immersionHeaterhCounter.averageRunTimePretty());
+    } else {
+      //this.log(`Non relevant data received: ${event.data}`);
     }
   }
 
