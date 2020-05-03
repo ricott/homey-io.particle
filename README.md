@@ -34,7 +34,7 @@ Use this app at your own risk. The authors do not guaranteed the proper function
 
 # Versions
 ## 0.9.4
-- Heater device type added. Packages updated
+- Packages updated
 
 ## 0.9.3
 - New Homey app store adoption
