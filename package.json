@@ -8,7 +8,7 @@
     "test": "test"
   },
   "dependencies": {
-    "particle-api-js": "^8.4.0",
+    "particle-api-js": "^9.0.0",
     "pretty-ms": "^7.0.0"
   },
   "devDependencies": {},
