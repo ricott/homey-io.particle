@@ -1,9 +1,9 @@
 {
   "id": "io.particle",
-  "version": "0.9.4",
-  "compatibility": ">=3.0.0",
+  "version": "0.9.5",
+  "compatibility": ">=5.0.0",
   "brandColor": "#01b6f1",
-  "sdk": 2,
+  "sdk": 3,
   "name": {
     "en": "Particle.io"
   },
