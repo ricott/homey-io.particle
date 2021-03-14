@@ -1,11 +1,12 @@
 {
   "id": "io.particle",
-  "version": "0.9.5",
+  "version": "0.9.6",
   "compatibility": ">=5.0.0",
   "brandColor": "#01b6f1",
   "sdk": 3,
   "name": {
-    "en": "Particle.io"
+    "en": "Particle.io",
+    "sv": "Particle.io"
   },
   "tags": {
     "en": [
@@ -13,10 +14,18 @@
       "particle",
       "cloud",
       "iot"
+    ],
+    "sv": [
+      "particle.io",
+      "particle",
+      "moln",
+      "cloud",
+      "iot"
     ]
   },
   "description": {
-    "en": "Connect your Particle.io devices to Homey"
+    "en": "Connect your Particle.io devices to Homey",
+    "sv": "Koppla dina Particle.io enheter till din Homey"
   },
   "category": [
     "internet"
@@ -45,7 +54,8 @@
   "capabilities": {
     "connected": {
       "title": {
-        "en": "Device connected"
+        "en": "Device connected",
+        "sv": "Uppkopplad"
       },
       "type": "boolean",
       "getable": true,
@@ -58,7 +68,8 @@
       "id": "clouddevice",
       "class": "other",
       "name": {
-        "en": "Particle Cloud Device"
+        "en": "Particle Cloud Device",
+        "sv": "Particle molnenhet"
       },
       "images": {
         "large": "/drivers/clouddevice/assets/images/large.png",
@@ -76,14 +87,16 @@
         {
           "type": "group",
           "label": {
-            "en": "App settings"
+            "en": "Settings",
+            "sv": "Inställningar"
           },
           "children": [
             {
               "id": "refresh_interval",
               "type": "number",
               "label": {
-                "en": "Refresh interval (seconds)"
+                "en": "Refresh interval (seconds)",
+                "sv": "Uppdateringsintervall (sekunder)"
               },
               "value": 60,
               "min": 5,
@@ -93,20 +106,23 @@
               "id": "generate_device_events",
               "type": "radio",
               "label": {
-                "en": "Enable device events as a trigger"
+                "en": "Enable device events as a trigger",
+                "sv": "Använd enhetshändelser som när-kort"
               },
               "value": "no",
               "values": [
                 {
                   "id": "yes",
                   "label": {
-                    "en": "Yes"
+                    "en": "Yes",
+                    "sv": "Ja"
                   }
                 },
                 {
                   "id": "no",
                   "label": {
-                    "en": "No"
+                    "en": "No",
+                    "sv": "Nej"
                   }
                 }
               ]
@@ -116,14 +132,16 @@
         {
           "type": "group",
           "label": {
-            "en": "Information"
+            "en": "Information",
+            "sv": "Information"
           },
           "children": [
             {
               "id": "serial_number",
               "type": "label",
               "label": {
-                "en": "Serial number"
+                "en": "Serial number",
+                "sv": "Serienummer"
               },
               "value": ""
             },
@@ -131,7 +149,8 @@
               "id": "firmware_version",
               "type": "label",
               "label": {
-                "en": "Firmware"
+                "en": "Firmware",
+                "sv": "Firmware"
               },
               "value": ""
             },
@@ -139,7 +158,8 @@
               "id": "last_ip_address",
               "type": "label",
               "label": {
-                "en": "Last known IP address"
+                "en": "Last known IP address",
+                "sv": "Senast kända IP adress"
               },
               "value": ""
             },
@@ -147,7 +167,8 @@
               "id": "last_heard",
               "type": "label",
               "label": {
-                "en": "Last seen"
+                "en": "Last seen",
+                "sv": "Senast sedd"
               },
               "value": ""
             }
@@ -174,7 +195,8 @@
       {
         "id": "device_connected",
         "title": {
-          "en": "Cloud device connected"
+          "en": "Cloud device connected",
+          "sv": "Enhet uppkopplad"
         },
         "args": [
           {
@@ -187,7 +209,8 @@
       {
         "id": "device_disconnected",
         "title": {
-          "en": "Cloud device disconnected"
+          "en": "Cloud device disconnected",
+          "sv": "Enhet nedkopplad"
         },
         "args": [
           {
@@ -200,7 +223,8 @@
       {
         "id": "device_event",
         "title": {
-          "en": "Device event"
+          "en": "Device event",
+          "sv": "Enhetshändelse"
         },
         "args": [
           {
@@ -214,7 +238,8 @@
             "name": "event_name",
             "type": "string",
             "title": {
-              "en": "Event name"
+              "en": "Event name",
+              "sv": "Händelsenamn"
             },
             "example": {
               "en": "temperature"
@@ -224,7 +249,8 @@
             "name": "event_value",
             "type": "string",
             "title": {
-              "en": "Event value"
+              "en": "Event value",
+              "sv": "Händelsevärde"
             },
             "example": {
               "en": "12.1"
@@ -235,14 +261,16 @@
       {
         "id": "a_device_connected",
         "title": {
-          "en": "Device connected"
+          "en": "Device connected",
+          "sv": "Enhet uppkopplad"
         },
         "tokens": [
           {
             "name": "serial",
             "type": "string",
             "title": {
-              "en": "Serial number"
+              "en": "Serial number",
+              "sv": "Serienummer"
             },
             "example": {
               "en": "PH-NNNNNN-AAAA-N"
@@ -252,7 +280,8 @@
             "name": "name",
             "type": "string",
             "title": {
-              "en": "Device name"
+              "en": "Device name",
+              "sv": "Enhetsnamn"
             },
             "example": {
               "en": "Garage door"
@@ -262,7 +291,8 @@
             "name": "ip_address",
             "type": "string",
             "title": {
-              "en": "IP address"
+              "en": "IP address",
+              "sv": "IP adress"
             },
             "example": {
               "en": "111.111.111.111"
@@ -273,14 +303,16 @@
       {
         "id": "a_device_disconnected",
         "title": {
-          "en": "Device disconnected"
+          "en": "Device disconnected",
+          "sv": "Enhet nedkopplad"
         },
         "tokens": [
           {
             "name": "serial",
             "type": "string",
             "title": {
-              "en": "Serial number"
+              "en": "Serial number",
+              "sv": "Serienummer"
             },
             "example": {
               "en": "PH-NNNNNN-AAAA-N"
@@ -290,7 +322,8 @@
             "name": "name",
             "type": "string",
             "title": {
-              "en": "Which device"
+              "en": "Device name",
+              "sv": "Enhetsnamn"
             },
             "example": {
               "en": "Garage door"
@@ -300,7 +333,8 @@
             "name": "ip_address",
             "type": "string",
             "title": {
-              "en": "IP Address"
+              "en": "IP Address",
+              "sv": "IP adress"
             },
             "example": {
               "en": "111.111.111.111"
@@ -313,7 +347,8 @@
       {
         "id": "particle_variable_condition",
         "title": {
-          "en": "Variable condition !{{|inversed}}"
+          "en": "Variable condition !{{|inversed}}",
+          "sv": "Variabelvärde !{{|omvänt}}"
         },
         "args": [
           {
@@ -325,21 +360,24 @@
             "name": "variable",
             "type": "autocomplete",
             "title": {
-              "en": "Variable name"
+              "en": "Variable name",
+              "sv": "Variabel"
             }
           },
           {
             "name": "conditionType",
             "type": "autocomplete",
             "title": {
-              "en": "Condition type"
+              "en": "Condition type",
+              "sv": "Villkor"
             }
           },
           {
             "name": "conditionValue",
             "type": "text",
             "title": {
-              "en": "Argument value"
+              "en": "Argument value",
+              "sv": "Värde"
             }
           }
         ]
@@ -349,7 +387,8 @@
       {
         "id": "particle_function",
         "title": {
-          "en": "Call function"
+          "en": "Call function",
+          "sv": "Anropa funktion"
         },
         "args": [
           {
@@ -361,14 +400,16 @@
             "type": "autocomplete",
             "name": "function",
             "title": {
-              "en": "Function name"
+              "en": "Function name",
+              "sv": "Funktionsnamn"
             }
           },
           {
             "type": "text",
             "name": "parameter",
             "title": {
-              "en": "Argument value"
+              "en": "Argument value",
+              "sv": "Argument"
             }
           }
         ]
@@ -376,14 +417,16 @@
       {
         "id": "particle_event",
         "title": {
-          "en": "Publish event"
+          "en": "Publish event",
+          "sv": "Publicera händelse"
         },
         "args": [
           {
             "type": "text",
             "name": "event_name",
             "title": {
-              "en": "Event name"
+              "en": "Event name",
+              "sv": "Händelsenamn"
             },
             "placeholder": {
               "en": "/garage/temp"
@@ -393,7 +436,8 @@
             "type": "text",
             "name": "event_data",
             "title": {
-              "en": "Event data"
+              "en": "Event data",
+              "sv": "Händelsevärde"
             },
             "placeholder": {
               "en": "19.1"
@@ -403,20 +447,23 @@
             "type": "dropdown",
             "name": "event_private",
             "title": {
-              "en": "Event private"
+              "en": "Event private",
+              "sv": "Privat händelse"
             },
             "value": "true",
             "values": [
               {
                 "id": "true",
                 "label": {
-                  "en": "Yes"
+                  "en": "Yes",
+                  "sv": "Ja"
                 }
               },
               {
                 "id": "false",
                 "label": {
-                  "en": "No"
+                  "en": "No",
+                  "sv": "Nej"
                 }
               }
             ]
