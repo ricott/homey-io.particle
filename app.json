@@ -1,6 +1,6 @@
 {
   "id": "io.particle",
-  "version": "0.9.6",
+  "version": "0.9.7",
   "compatibility": ">=5.0.0",
   "brandColor": "#01b6f1",
   "sdk": 3,
@@ -24,8 +24,8 @@
     ]
   },
   "description": {
-    "en": "Connect your Particle.io devices to Homey",
-    "sv": "Koppla dina Particle.io enheter till din Homey"
+    "en": "Bridge the gap between the physical and digital world",
+    "sv": "Brygga gapet mellan den fysiska och digitala världen"
   },
   "category": [
     "internet"

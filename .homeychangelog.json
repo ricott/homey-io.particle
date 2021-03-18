@@ -1,6 +1,11 @@
 {
+  "0.9.7": {
+    "en": "Improved Swedish language support",
+    "sv": "Förbättrad översättning till svenska"
+  },
   "0.9.6": {
-    "en": "Homey SDK3 update, and Swedish language support"
+    "en": "Homey SDK3 update, and Swedish language support",
+    "sv": "Homey SDK3 uppdatering, och appen är översatt till svenska"
   },
   "0.9.5": {
     "en": "Homey SDK3 update"
