@@ -1,6 +1,6 @@
 {
   "id": "io.particle",
-  "version": "0.9.7",
+  "version": "0.9.8",
   "compatibility": ">=5.0.0",
   "brandColor": "#01b6f1",
   "sdk": 3,
@@ -347,8 +347,12 @@
       {
         "id": "particle_variable_condition",
         "title": {
-          "en": "Variable condition !{{|inversed}}",
-          "sv": "Variabelvärde !{{|omvänt}}"
+          "en": "Compare device property",
+          "sv": "Jämför enhetsegenskap"
+        },
+        "titleFormatted": {
+          "en": "Compare [[variable]] with [[conditionValue]] using [[conditionType]]",
+          "sv": "Jämför [[variable]] med [[conditionValue]] med hjälp av [[conditionType]]"
         },
         "args": [
           {
@@ -360,8 +364,8 @@
             "name": "variable",
             "type": "autocomplete",
             "title": {
-              "en": "Variable name",
-              "sv": "Variabel"
+              "en": "Device property",
+              "sv": "Enhetsegenskap"
             }
           },
           {
@@ -376,7 +380,7 @@
             "name": "conditionValue",
             "type": "text",
             "title": {
-              "en": "Argument value",
+              "en": "Value",
               "sv": "Värde"
             }
           }
@@ -390,26 +394,30 @@
           "en": "Call function",
           "sv": "Anropa funktion"
         },
+        "titleFormatted": {
+          "en": "Call [[function]] with [[parameter]]",
+          "sv": "Anropa [[function]] med [[parameter]]"
+        },
         "args": [
           {
-            "name": "device",
-            "type": "device",
-            "filter": "driver_id=clouddevice"
+             "name": "device",
+             "type": "device",
+             "filter": "driver_id=clouddevice"
           },
           {
             "type": "autocomplete",
             "name": "function",
             "title": {
-              "en": "Function name",
-              "sv": "Funktionsnamn"
+              "en": "Function",
+              "sv": "Funktion"
             }
           },
           {
             "type": "text",
             "name": "parameter",
             "title": {
-              "en": "Argument value",
-              "sv": "Argument"
+              "en": "Parameter",
+              "sv": "Parameter"
             }
           }
         ]
@@ -420,13 +428,22 @@
           "en": "Publish event",
           "sv": "Publicera händelse"
         },
+        "titleFormatted": {
+          "en": "Publish [[event_name]] with [[event_data]] and [[event_private]]",
+          "sv": "Publicera [[event_name]] med [[event_data]] och [[event_private]]"
+        },
         "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=clouddevice"
+          },
           {
             "type": "text",
             "name": "event_name",
             "title": {
-              "en": "Event name",
-              "sv": "Händelsenamn"
+              "en": "Event",
+              "sv": "Händelse"
             },
             "placeholder": {
               "en": "/garage/temp"
@@ -436,8 +453,8 @@
             "type": "text",
             "name": "event_data",
             "title": {
-              "en": "Event data",
-              "sv": "Händelsevärde"
+              "en": "Data",
+              "sv": "Data"
             },
             "placeholder": {
               "en": "19.1"
@@ -447,23 +464,22 @@
             "type": "dropdown",
             "name": "event_private",
             "title": {
-              "en": "Event private",
-              "sv": "Privat händelse"
+              "en": "Visibility",
+              "sv": "Synlighet"
             },
-            "value": "true",
             "values": [
               {
                 "id": "true",
                 "label": {
-                  "en": "Yes",
-                  "sv": "Ja"
+                  "en": "Private",
+                  "sv": "Privat"
                 }
               },
               {
                 "id": "false",
                 "label": {
-                  "en": "No",
-                  "sv": "Nej"
+                  "en": "Public",
+                  "sv": "Publikt"
                 }
               }
             ]

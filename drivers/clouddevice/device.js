@@ -254,16 +254,16 @@ class CloudDevice extends Homey.Device {
     }
   }
 
-  async onSettings(oldSettings, newSettings, changedKeysArr) {
-    if (changedKeysArr.indexOf("refresh_interval") > -1) {
-      this.logMessage('Refresh interval value was change to:', newSettings.refresh_interval);
+  async onSettings({ oldSettings, newSettings, changedKeys }) {
+    if (changedKeys.indexOf("refresh_interval") > -1) {
+      this.logMessage(`Refresh interval value was change to '${ newSettings.refresh_interval }'`);
       this.refresh_interval = newSettings.refresh_interval;
       //We also need to re-initialize the timer
       this._reinitializeTimers();
     }
 
-    if (changedKeysArr.indexOf("generate_device_events") > -1) {
-      this.logMessage('Generate device events was change to:', newSettings.generate_device_events);
+    if (changedKeys.indexOf("generate_device_events") > -1) {
+      this.logMessage(`Generate device events was change to '${ newSettings.generate_device_events }'`);
       this.generateDeviceEvents = newSettings.generate_device_events;
       this._restartDeviceEventListener();
     }

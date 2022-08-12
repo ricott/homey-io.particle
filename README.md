@@ -31,13 +31,3 @@ Devices need to be online in order to be added to Homey.
 
 # Disclaimer
 Use this app at your own risk. The authors do not guaranteed the proper functioning of this app. This app use the standard Particle APIs using the standard Particle javascript [SDK](https://docs.particle.io/reference/SDKs/javascript/). However, it is possible that use of this app may cause unexpected damage for which nobody but you are responsible. Use of these functions can change the settings on your particle devices and may have negative consequences.
-
-# Versions
-## 0.9.4
-- Packages updated
-
-## 0.9.3
-- New Homey app store adoption
-
-## 0.9.2
-- Particle Javascript SDK upgraded to v8.0.0. EventStreams should automatically reconnect after a network disconnect.
