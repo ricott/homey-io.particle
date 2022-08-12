@@ -7,7 +7,7 @@
 #Secret environment variables
 /env.json
 
-node_modules
+/node_modules
 
 # Added by Homey CLI
 /.homeybuild/
