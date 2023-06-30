@@ -1,0 +1,64 @@
+{
+    "id": "particle_event",
+    "title": {
+        "en": "Publish event",
+        "sv": "Publicera händelse"
+    },
+    "titleFormatted": {
+        "en": "Publish [[event_name]] with [[event_data]] and [[event_private]]",
+        "sv": "Publicera [[event_name]] med [[event_data]] och [[event_private]]"
+    },
+    "args": [
+        {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=clouddevice"
+        },
+        {
+            "type": "text",
+            "name": "event_name",
+            "title": {
+                "en": "Event",
+                "sv": "Händelse"
+            },
+            "placeholder": {
+                "en": "/garage/temp"
+            }
+        },
+        {
+            "type": "text",
+            "name": "event_data",
+            "title": {
+                "en": "Data",
+                "sv": "Data"
+            },
+            "placeholder": {
+                "en": "19.1"
+            }
+        },
+        {
+            "type": "dropdown",
+            "name": "event_private",
+            "title": {
+                "en": "Visibility",
+                "sv": "Synlighet"
+            },
+            "values": [
+                {
+                    "id": "true",
+                    "label": {
+                        "en": "Private",
+                        "sv": "Privat"
+                    }
+                },
+                {
+                    "id": "false",
+                    "label": {
+                        "en": "Public",
+                        "sv": "Publikt"
+                    }
+                }
+            ]
+        }
+    ]
+}

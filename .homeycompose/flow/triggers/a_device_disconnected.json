@@ -1,0 +1,42 @@
+{
+    "id": "a_device_disconnected",
+    "title": {
+        "en": "Device disconnected",
+        "sv": "Enhet nedkopplad"
+    },
+    "tokens": [
+        {
+            "name": "serial",
+            "type": "string",
+            "title": {
+                "en": "Serial number",
+                "sv": "Serienummer"
+            },
+            "example": {
+                "en": "PH-NNNNNN-AAAA-N"
+            }
+        },
+        {
+            "name": "name",
+            "type": "string",
+            "title": {
+                "en": "Device name",
+                "sv": "Enhetsnamn"
+            },
+            "example": {
+                "en": "Garage door"
+            }
+        },
+        {
+            "name": "ip_address",
+            "type": "string",
+            "title": {
+                "en": "IP Address",
+                "sv": "IP adress"
+            },
+            "example": {
+                "en": "111.111.111.111"
+            }
+        }
+    ]
+}

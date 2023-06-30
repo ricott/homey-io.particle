@@ -1,0 +1,92 @@
+[
+    {
+        "type": "group",
+        "label": {
+            "en": "Settings",
+            "sv": "Inställningar"
+        },
+        "children": [
+            {
+                "id": "refresh_interval",
+                "type": "number",
+                "label": {
+                    "en": "Refresh interval (seconds)",
+                    "sv": "Uppdateringsintervall (sekunder)"
+                },
+                "value": 60,
+                "min": 5,
+                "max": 3600
+            },
+            {
+                "id": "generate_device_events",
+                "type": "radio",
+                "label": {
+                    "en": "Enable device events as a trigger",
+                    "sv": "Använd enhetshändelser som när-kort"
+                },
+                "value": "no",
+                "values": [
+                    {
+                        "id": "yes",
+                        "label": {
+                            "en": "Yes",
+                            "sv": "Ja"
+                        }
+                    },
+                    {
+                        "id": "no",
+                        "label": {
+                            "en": "No",
+                            "sv": "Nej"
+                        }
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "type": "group",
+        "label": {
+            "en": "Information",
+            "sv": "Information"
+        },
+        "children": [
+            {
+                "id": "serial_number",
+                "type": "label",
+                "label": {
+                    "en": "Serial number",
+                    "sv": "Serienummer"
+                },
+                "value": ""
+            },
+            {
+                "id": "firmware_version",
+                "type": "label",
+                "label": {
+                    "en": "Firmware",
+                    "sv": "Firmware"
+                },
+                "value": ""
+            },
+            {
+                "id": "last_ip_address",
+                "type": "label",
+                "label": {
+                    "en": "Last known IP address",
+                    "sv": "Senast kända IP adress"
+                },
+                "value": ""
+            },
+            {
+                "id": "last_heard",
+                "type": "label",
+                "label": {
+                    "en": "Last seen",
+                    "sv": "Senast sedd"
+                },
+                "value": ""
+            }
+        ]
+    }
+]

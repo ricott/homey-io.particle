@@ -1,0 +1,42 @@
+{
+    "id": "particle_variable_condition",
+    "title": {
+        "en": "Compare device property",
+        "sv": "Jämför enhetsegenskap"
+    },
+    "titleFormatted": {
+        "en": "Compare [[variable]] with [[conditionValue]] using [[conditionType]]",
+        "sv": "Jämför [[variable]] med [[conditionValue]] med hjälp av [[conditionType]]"
+    },
+    "args": [
+        {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=clouddevice"
+        },
+        {
+            "name": "variable",
+            "type": "autocomplete",
+            "title": {
+                "en": "Device property",
+                "sv": "Enhetsegenskap"
+            }
+        },
+        {
+            "name": "conditionType",
+            "type": "autocomplete",
+            "title": {
+                "en": "Condition type",
+                "sv": "Villkor"
+            }
+        },
+        {
+            "name": "conditionValue",
+            "type": "text",
+            "title": {
+                "en": "Value",
+                "sv": "Värde"
+            }
+        }
+    ]
+}

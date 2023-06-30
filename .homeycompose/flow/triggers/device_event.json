@@ -1,0 +1,38 @@
+{
+    "id": "device_event",
+    "title": {
+        "en": "Device event",
+        "sv": "Enhetshändelse"
+    },
+    "args": [
+        {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=clouddevice"
+        }
+    ],
+    "tokens": [
+        {
+            "name": "event_name",
+            "type": "string",
+            "title": {
+                "en": "Event name",
+                "sv": "Händelsenamn"
+            },
+            "example": {
+                "en": "temperature"
+            }
+        },
+        {
+            "name": "event_value",
+            "type": "string",
+            "title": {
+                "en": "Event value",
+                "sv": "Händelsevärde"
+            },
+            "example": {
+                "en": "12.1"
+            }
+        }
+    ]
+}

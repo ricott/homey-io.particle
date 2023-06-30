@@ -1,0 +1,14 @@
+{
+    "id": "device_disconnected",
+    "title": {
+        "en": "Cloud device disconnected",
+        "sv": "Enhet nedkopplad"
+    },
+    "args": [
+        {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=clouddevice"
+        }
+    ]
+}

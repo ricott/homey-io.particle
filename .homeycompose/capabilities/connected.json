@@ -1,0 +1,10 @@
+{
+    "title": {
+        "en": "Device connected",
+        "sv": "Uppkopplad"
+    },
+    "type": "boolean",
+    "getable": true,
+    "setable": false,
+    "icon": "/drivers/clouddevice/assets/connected.svg"
+}

@@ -8,13 +8,12 @@ class CloudDevice extends Homey.Device {
   async onInit() {
     this.logMessage('Device initiated');
 
-    this.pollIntervals = [];
-    this.refresh_interval = this.getSettings().refresh_interval || 60;
-    this.generateDeviceEvents = this.getSettings().generate_device_events || 'no';
+    // Register device triggers
+    this._device_connected = this.homey.flow.getDeviceTriggerCard('device_connected');
+    this._device_disconnected = this.homey.flow.getDeviceTriggerCard('device_disconnected');
+    this._device_event = this.homey.flow.getDeviceTriggerCard('device_event');
 
     this.device = {
-      id: this.getData().id,
-      name: this.getName(),
       info: null,
       functions: [],
       variables: [],
@@ -28,19 +27,19 @@ class CloudDevice extends Homey.Device {
 
     this._initilializeTimers();
 
-    this._startDeviceEventListener();
+    this._startDeviceEventListener(this.getSetting('generate_device_events'));
   }
 
   logMessage(message) {
     this.log(`[${this.getName()}] ${message}`);
   }
 
-  _startDeviceEventListener() {
+  _startDeviceEventListener(generateDeviceEvents) {
     var self = this;
-    if (this.generateDeviceEvents === 'yes') {
+    if (generateDeviceEvents === 'yes') {
       self.logMessage('Starting device event listener');
 
-      new Particle().getEventStream({ deviceId: this.device.id, auth: this.homey.settings.get('access_token') })
+      new Particle().getEventStream({ deviceId: self.getData().id, auth: self.homey.settings.get('access_token') })
         .then(function (stream) {
           self.device.eventStream = stream;
           stream.on('event', function (event) {
@@ -49,7 +48,7 @@ class CloudDevice extends Homey.Device {
               event_name: event.name || 'unknown',
               event_value: event.data || 'unknown'
             }
-            self.driver.triggerDeviceFlow('device_event', particleEvent, self);
+            self._device_event.trigger(self, particleEvent, {}).catch(error => { self.error(error) });
           });
         });
     }
@@ -63,56 +62,36 @@ class CloudDevice extends Homey.Device {
     }
   }
 
-  _restartDeviceEventListener() {
+  _restartDeviceEventListener(generateDeviceEvents) {
     this._stopDeviceEventListener();
-    this._startDeviceEventListener();
+    this._startDeviceEventListener(generateDeviceEvents);
   }
 
   _initilializeTimers() {
     this.logMessage('Adding timers');
     // Start a poller, to check the device status
-    this.pollIntervals.push(setInterval(() => {
+    this.homey.setInterval(() => {
       this.refreshCloudDeviceStatus();
-    }, this.refresh_interval * 1000));
-
-  }
-
-  _deleteTimers() {
-    //Kill interval object(s)
-    this.logMessage('Removing timers');
-    this.pollIntervals.forEach(timer => {
-      clearInterval(timer);
-    });
-  }
-
-  _reinitializeTimers() {
-    this._deleteTimers();
-    this._initilializeTimers();
+    }, this.getSetting('refresh_interval') * 1000);
   }
 
   onDeleted() {
     this.logMessage('Deleting device from Homey.');
-    this._deleteTimers();
     this._stopDeviceEventListener();
     this.device = null;
   }
 
-  onRenamed(name) {
-    this.logMessage(`Renaming device from '${this.device.name}' to '${name}'`)
-    this.device.name = name;
-  }
-
   refreshCloudDeviceActionsAndVariables() {
     var self = this;
-    this.logMessage('Refreshing device actions and variables');
-    new Particle().getDevice({ deviceId: this.device.id, auth: this.homey.settings.get('access_token') })
+    self.logMessage('Refreshing device actions and variables');
+    new Particle().getDevice({ deviceId: self.getData().id, auth: self.homey.settings.get('access_token') })
       .then(function (data) {
         let device = data.body;
         let deviceVariables = [];
         if (device.variables) {
           Object.keys(device.variables).forEach(key => {
             deviceVariables.push({
-              id: self.device.id,
+              id: self.getData().id,
               name: key,
               type: device.variables[key]
             });
@@ -124,9 +103,9 @@ class CloudDevice extends Homey.Device {
         if (device.functions != null && device.functions.length > 0) {
           device.functions.forEach(func => {
             deviceFunctions.push({
-              id: self.device.id,
+              id: self.getData().id,
               name: func,
-              device_name: device.name
+              device_name: self.getName()
             });
           });
         }
@@ -144,7 +123,7 @@ class CloudDevice extends Homey.Device {
       return Promise.resolve(null);
     }
 
-    return new Particle().getVariable({ deviceId: this.device.id, name: variableName, auth: this.homey.settings.get('access_token') })
+    return new Particle().getVariable({ deviceId: this.getData().id, name: variableName, auth: this.homey.settings.get('access_token') })
       .then(function (data) {
         let value = null;
         if (data && data.body && data.body.result !== null) {
@@ -158,13 +137,14 @@ class CloudDevice extends Homey.Device {
   }
 
   callDeviceFunction(functionName, args) {
+    var self = this;
+
     //If device is offline then we cant invoke a function
-    if (!this.device.info.connected) {
+    if (!self.device.info.connected) {
       return Promise.resolve({ statusCode: 400 });
     }
 
-    var self = this;
-    return new Particle().callFunction({ deviceId: this.device.id, name: functionName, argument: args, auth: this.homey.settings.get('access_token') })
+    return new Particle().callFunction({ deviceId: self.getData().id, name: functionName, argument: args, auth: self.homey.settings.get('access_token') })
       .then(function (data) {
         return data;
       }, function (err) {
@@ -180,35 +160,35 @@ class CloudDevice extends Homey.Device {
 
   refreshCloudDeviceStatus() {
     var self = this;
-    new Particle().getDevice({ deviceId: this.device.id, auth: this.homey.settings.get('access_token') })
+    new Particle().getDevice({ deviceId: self.getData().id, auth: self.homey.settings.get('access_token') })
       .then(function (data) {
-          let device = data.body;
-          //If connected change from false to true we should refresh variables and functions
-          if (device.connected && self.isCapabilityValueChanged('connected', device.connected)) {
-            self.logMessage('Device came online, lets refresh variables and functions');
-            self.refreshCloudDeviceActionsAndVariables();
-          }
+        let device = data.body;
+        //If connected change from false to true we should refresh variables and functions
+        if (device.connected && self.isCapabilityValueChanged('connected', device.connected)) {
+          self.logMessage('Device came online, lets refresh variables and functions');
+          self.refreshCloudDeviceActionsAndVariables();
+        }
 
-          //Update capabilities of cloud device
-          self._updateProperty('connected', device.connected);
+        //Update capabilities of cloud device
+        self._updateProperty('connected', device.connected);
 
-          self.device.info = device;
+        self.device.info = device;
 
-          let lastHeardDate = new Date(device.last_heard)
-            .toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
+        let lastHeardDate = new Date(device.last_heard)
+          .toLocaleDateString('en-US', { day: 'numeric', month: 'short', year: 'numeric', hour: 'numeric', minute: 'numeric', second: 'numeric' });
 
-          //Update Homey settings in advanced tab
-          self.setSettings({
-            serial_number: device.serial_number,
-            firmware_version: device.system_firmware_version,
-            last_ip_address: device.last_ip_address,
-            last_heard: lastHeardDate
-          })
-            .catch(err => {
-              self.error('failed to update settings', err);
-            });
+        //Update Homey settings in advanced tab
+        self.setSettings({
+          serial_number: device.serial_number,
+          firmware_version: device.system_firmware_version,
+          last_ip_address: device.last_ip_address,
+          last_heard: lastHeardDate
+        })
+          .catch(err => {
+            self.error('failed to update settings', err);
+          });
 
-        },
+      },
         function (err) {
           self.error('Failed to refresh device status: ', err);
         }
@@ -222,14 +202,15 @@ class CloudDevice extends Homey.Device {
 
       let tokens = {};
       if (key == 'connected') {
-        let flowDeviceTrigger = 'device_connected';
-        let flowTrigger = 'a_device_connected';
-        if (value === false) {
-          flowDeviceTrigger = 'device_disconnected';
+
+        let flowTrigger;
+        if (value === true) {
+          this._device_connected.trigger(this, tokens, {}).catch(error => { this.error(error) });
+          flowTrigger = 'a_device_connected';
+        } else {
+          this._device_disconnected.trigger(this, tokens, {}).catch(error => { this.error(error) });
           flowTrigger = 'a_device_disconnected';
         }
-
-        this.driver.triggerDeviceFlow(flowDeviceTrigger, tokens, this);
 
         tokens = {
           serial: this.getSettings().serial_number,
@@ -256,16 +237,12 @@ class CloudDevice extends Homey.Device {
 
   async onSettings({ oldSettings, newSettings, changedKeys }) {
     if (changedKeys.indexOf("refresh_interval") > -1) {
-      this.logMessage(`Refresh interval value was change to '${ newSettings.refresh_interval }'`);
-      this.refresh_interval = newSettings.refresh_interval;
-      //We also need to re-initialize the timer
-      this._reinitializeTimers();
+      this.logMessage(`Refresh interval value was change to '${newSettings.refresh_interval}'`);
     }
 
     if (changedKeys.indexOf("generate_device_events") > -1) {
-      this.logMessage(`Generate device events was change to '${ newSettings.generate_device_events }'`);
-      this.generateDeviceEvents = newSettings.generate_device_events;
-      this._restartDeviceEventListener();
+      this.logMessage(`Generate device events was change to '${newSettings.generate_device_events}'`);
+      this._restartDeviceEventListener(newSettings.generate_device_events);
     }
   }
 

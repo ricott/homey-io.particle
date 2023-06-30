@@ -1,0 +1,32 @@
+{
+    "name": {
+        "en": "Particle Cloud Device",
+        "sv": "Particle molnenhet"
+    },
+    "class": "other",
+    "images": {
+        "large": "/drivers/clouddevice/assets/images/large.png",
+        "small": "/drivers/clouddevice/assets/images/small.png"
+    },
+    "capabilities": [
+        "connected"
+    ],
+    "energy": {
+        "approximation": {
+            "usageConstant": 1
+        }
+    },
+    "pair": [
+        {
+            "id": "list_devices",
+            "template": "list_devices",
+            "navigation": {
+                "next": "add_devices"
+            }
+        },
+        {
+            "id": "add_devices",
+            "template": "add_devices"
+        }
+    ]
+}

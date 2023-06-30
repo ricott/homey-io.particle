@@ -1,6 +1,7 @@
 {
+  "_comment": "This file is generated. Please edit .homeycompose/app.json instead.",
   "id": "io.particle",
-  "version": "0.9.8",
+  "version": "0.9.9",
   "compatibility": ">=5.0.0",
   "brandColor": "#01b6f1",
   "sdk": 3,
@@ -51,26 +52,311 @@
   },
   "source": "https://github.com/ricott/homey-io.particle",
   "homeyCommunityTopicId": 20841,
-  "capabilities": {
-    "connected": {
-      "title": {
-        "en": "Device connected",
-        "sv": "Uppkopplad"
+  "flow": {
+    "triggers": [
+      {
+        "id": "a_device_connected",
+        "title": {
+          "en": "Device connected",
+          "sv": "Enhet uppkopplad"
+        },
+        "tokens": [
+          {
+            "name": "serial",
+            "type": "string",
+            "title": {
+              "en": "Serial number",
+              "sv": "Serienummer"
+            },
+            "example": {
+              "en": "PH-NNNNNN-AAAA-N"
+            }
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Device name",
+              "sv": "Enhetsnamn"
+            },
+            "example": {
+              "en": "Garage door"
+            }
+          },
+          {
+            "name": "ip_address",
+            "type": "string",
+            "title": {
+              "en": "IP address",
+              "sv": "IP adress"
+            },
+            "example": {
+              "en": "111.111.111.111"
+            }
+          }
+        ]
       },
-      "type": "boolean",
-      "getable": true,
-      "setable": false,
-      "icon": "/drivers/clouddevice/assets/connected.svg"
-    }
+      {
+        "id": "a_device_disconnected",
+        "title": {
+          "en": "Device disconnected",
+          "sv": "Enhet nedkopplad"
+        },
+        "tokens": [
+          {
+            "name": "serial",
+            "type": "string",
+            "title": {
+              "en": "Serial number",
+              "sv": "Serienummer"
+            },
+            "example": {
+              "en": "PH-NNNNNN-AAAA-N"
+            }
+          },
+          {
+            "name": "name",
+            "type": "string",
+            "title": {
+              "en": "Device name",
+              "sv": "Enhetsnamn"
+            },
+            "example": {
+              "en": "Garage door"
+            }
+          },
+          {
+            "name": "ip_address",
+            "type": "string",
+            "title": {
+              "en": "IP Address",
+              "sv": "IP adress"
+            },
+            "example": {
+              "en": "111.111.111.111"
+            }
+          }
+        ]
+      },
+      {
+        "id": "device_connected",
+        "title": {
+          "en": "Cloud device connected",
+          "sv": "Enhet uppkopplad"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=clouddevice"
+          }
+        ]
+      },
+      {
+        "id": "device_disconnected",
+        "title": {
+          "en": "Cloud device disconnected",
+          "sv": "Enhet nedkopplad"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=clouddevice"
+          }
+        ]
+      },
+      {
+        "id": "device_event",
+        "title": {
+          "en": "Device event",
+          "sv": "Enhetshändelse"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=clouddevice"
+          }
+        ],
+        "tokens": [
+          {
+            "name": "event_name",
+            "type": "string",
+            "title": {
+              "en": "Event name",
+              "sv": "Händelsenamn"
+            },
+            "example": {
+              "en": "temperature"
+            }
+          },
+          {
+            "name": "event_value",
+            "type": "string",
+            "title": {
+              "en": "Event value",
+              "sv": "Händelsevärde"
+            },
+            "example": {
+              "en": "12.1"
+            }
+          }
+        ]
+      }
+    ],
+    "conditions": [
+      {
+        "id": "particle_variable_condition",
+        "title": {
+          "en": "Compare device property",
+          "sv": "Jämför enhetsegenskap"
+        },
+        "titleFormatted": {
+          "en": "Compare [[variable]] with [[conditionValue]] using [[conditionType]]",
+          "sv": "Jämför [[variable]] med [[conditionValue]] med hjälp av [[conditionType]]"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=clouddevice"
+          },
+          {
+            "name": "variable",
+            "type": "autocomplete",
+            "title": {
+              "en": "Device property",
+              "sv": "Enhetsegenskap"
+            }
+          },
+          {
+            "name": "conditionType",
+            "type": "autocomplete",
+            "title": {
+              "en": "Condition type",
+              "sv": "Villkor"
+            }
+          },
+          {
+            "name": "conditionValue",
+            "type": "text",
+            "title": {
+              "en": "Value",
+              "sv": "Värde"
+            }
+          }
+        ]
+      }
+    ],
+    "actions": [
+      {
+        "id": "particle_event",
+        "title": {
+          "en": "Publish event",
+          "sv": "Publicera händelse"
+        },
+        "titleFormatted": {
+          "en": "Publish [[event_name]] with [[event_data]] and [[event_private]]",
+          "sv": "Publicera [[event_name]] med [[event_data]] och [[event_private]]"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=clouddevice"
+          },
+          {
+            "type": "text",
+            "name": "event_name",
+            "title": {
+              "en": "Event",
+              "sv": "Händelse"
+            },
+            "placeholder": {
+              "en": "/garage/temp"
+            }
+          },
+          {
+            "type": "text",
+            "name": "event_data",
+            "title": {
+              "en": "Data",
+              "sv": "Data"
+            },
+            "placeholder": {
+              "en": "19.1"
+            }
+          },
+          {
+            "type": "dropdown",
+            "name": "event_private",
+            "title": {
+              "en": "Visibility",
+              "sv": "Synlighet"
+            },
+            "values": [
+              {
+                "id": "true",
+                "label": {
+                  "en": "Private",
+                  "sv": "Privat"
+                }
+              },
+              {
+                "id": "false",
+                "label": {
+                  "en": "Public",
+                  "sv": "Publikt"
+                }
+              }
+            ]
+          }
+        ]
+      },
+      {
+        "id": "particle_function",
+        "title": {
+          "en": "Call function",
+          "sv": "Anropa funktion"
+        },
+        "titleFormatted": {
+          "en": "Call [[function]] with [[parameter]]",
+          "sv": "Anropa [[function]] med [[parameter]]"
+        },
+        "args": [
+          {
+            "name": "device",
+            "type": "device",
+            "filter": "driver_id=clouddevice"
+          },
+          {
+            "type": "autocomplete",
+            "name": "function",
+            "title": {
+              "en": "Function",
+              "sv": "Funktion"
+            }
+          },
+          {
+            "type": "text",
+            "name": "parameter",
+            "title": {
+              "en": "Parameter",
+              "sv": "Parameter"
+            }
+          }
+        ]
+      }
+    ]
   },
   "drivers": [
     {
-      "id": "clouddevice",
-      "class": "other",
       "name": {
         "en": "Particle Cloud Device",
         "sv": "Particle molnenhet"
       },
+      "class": "other",
       "images": {
         "large": "/drivers/clouddevice/assets/images/large.png",
         "small": "/drivers/clouddevice/assets/images/small.png"
@@ -83,6 +369,20 @@
           "usageConstant": 1
         }
       },
+      "pair": [
+        {
+          "id": "list_devices",
+          "template": "list_devices",
+          "navigation": {
+            "next": "add_devices"
+          }
+        },
+        {
+          "id": "add_devices",
+          "template": "add_devices"
+        }
+      ],
+      "id": "clouddevice",
       "settings": [
         {
           "type": "group",
@@ -174,318 +474,19 @@
             }
           ]
         }
-      ],
-      "pair": [
-        {
-          "id": "list_devices",
-          "template": "list_devices",
-          "navigation": {
-            "next": "add_devices"
-          }
-        },
-        {
-          "id": "add_devices",
-          "template": "add_devices"
-        }
       ]
     }
   ],
-  "flow": {
-    "triggers": [
-      {
-        "id": "device_connected",
-        "title": {
-          "en": "Cloud device connected",
-          "sv": "Enhet uppkopplad"
-        },
-        "args": [
-          {
-            "name": "device",
-            "type": "device",
-            "filter": "driver_id=clouddevice"
-          }
-        ]
+  "capabilities": {
+    "connected": {
+      "title": {
+        "en": "Device connected",
+        "sv": "Uppkopplad"
       },
-      {
-        "id": "device_disconnected",
-        "title": {
-          "en": "Cloud device disconnected",
-          "sv": "Enhet nedkopplad"
-        },
-        "args": [
-          {
-            "name": "device",
-            "type": "device",
-            "filter": "driver_id=clouddevice"
-          }
-        ]
-      },
-      {
-        "id": "device_event",
-        "title": {
-          "en": "Device event",
-          "sv": "Enhetshändelse"
-        },
-        "args": [
-          {
-            "name": "device",
-            "type": "device",
-            "filter": "driver_id=clouddevice"
-          }
-        ],
-        "tokens": [
-          {
-            "name": "event_name",
-            "type": "string",
-            "title": {
-              "en": "Event name",
-              "sv": "Händelsenamn"
-            },
-            "example": {
-              "en": "temperature"
-            }
-          },
-          {
-            "name": "event_value",
-            "type": "string",
-            "title": {
-              "en": "Event value",
-              "sv": "Händelsevärde"
-            },
-            "example": {
-              "en": "12.1"
-            }
-          }
-        ]
-      },
-      {
-        "id": "a_device_connected",
-        "title": {
-          "en": "Device connected",
-          "sv": "Enhet uppkopplad"
-        },
-        "tokens": [
-          {
-            "name": "serial",
-            "type": "string",
-            "title": {
-              "en": "Serial number",
-              "sv": "Serienummer"
-            },
-            "example": {
-              "en": "PH-NNNNNN-AAAA-N"
-            }
-          },
-          {
-            "name": "name",
-            "type": "string",
-            "title": {
-              "en": "Device name",
-              "sv": "Enhetsnamn"
-            },
-            "example": {
-              "en": "Garage door"
-            }
-          },
-          {
-            "name": "ip_address",
-            "type": "string",
-            "title": {
-              "en": "IP address",
-              "sv": "IP adress"
-            },
-            "example": {
-              "en": "111.111.111.111"
-            }
-          }
-        ]
-      },
-      {
-        "id": "a_device_disconnected",
-        "title": {
-          "en": "Device disconnected",
-          "sv": "Enhet nedkopplad"
-        },
-        "tokens": [
-          {
-            "name": "serial",
-            "type": "string",
-            "title": {
-              "en": "Serial number",
-              "sv": "Serienummer"
-            },
-            "example": {
-              "en": "PH-NNNNNN-AAAA-N"
-            }
-          },
-          {
-            "name": "name",
-            "type": "string",
-            "title": {
-              "en": "Device name",
-              "sv": "Enhetsnamn"
-            },
-            "example": {
-              "en": "Garage door"
-            }
-          },
-          {
-            "name": "ip_address",
-            "type": "string",
-            "title": {
-              "en": "IP Address",
-              "sv": "IP adress"
-            },
-            "example": {
-              "en": "111.111.111.111"
-            }
-          }
-        ]
-      }
-    ],
-    "conditions": [
-      {
-        "id": "particle_variable_condition",
-        "title": {
-          "en": "Compare device property",
-          "sv": "Jämför enhetsegenskap"
-        },
-        "titleFormatted": {
-          "en": "Compare [[variable]] with [[conditionValue]] using [[conditionType]]",
-          "sv": "Jämför [[variable]] med [[conditionValue]] med hjälp av [[conditionType]]"
-        },
-        "args": [
-          {
-            "name": "device",
-            "type": "device",
-            "filter": "driver_id=clouddevice"
-          },
-          {
-            "name": "variable",
-            "type": "autocomplete",
-            "title": {
-              "en": "Device property",
-              "sv": "Enhetsegenskap"
-            }
-          },
-          {
-            "name": "conditionType",
-            "type": "autocomplete",
-            "title": {
-              "en": "Condition type",
-              "sv": "Villkor"
-            }
-          },
-          {
-            "name": "conditionValue",
-            "type": "text",
-            "title": {
-              "en": "Value",
-              "sv": "Värde"
-            }
-          }
-        ]
-      }
-    ],
-    "actions": [
-      {
-        "id": "particle_function",
-        "title": {
-          "en": "Call function",
-          "sv": "Anropa funktion"
-        },
-        "titleFormatted": {
-          "en": "Call [[function]] with [[parameter]]",
-          "sv": "Anropa [[function]] med [[parameter]]"
-        },
-        "args": [
-          {
-             "name": "device",
-             "type": "device",
-             "filter": "driver_id=clouddevice"
-          },
-          {
-            "type": "autocomplete",
-            "name": "function",
-            "title": {
-              "en": "Function",
-              "sv": "Funktion"
-            }
-          },
-          {
-            "type": "text",
-            "name": "parameter",
-            "title": {
-              "en": "Parameter",
-              "sv": "Parameter"
-            }
-          }
-        ]
-      },
-      {
-        "id": "particle_event",
-        "title": {
-          "en": "Publish event",
-          "sv": "Publicera händelse"
-        },
-        "titleFormatted": {
-          "en": "Publish [[event_name]] with [[event_data]] and [[event_private]]",
-          "sv": "Publicera [[event_name]] med [[event_data]] och [[event_private]]"
-        },
-        "args": [
-          {
-            "name": "device",
-            "type": "device",
-            "filter": "driver_id=clouddevice"
-          },
-          {
-            "type": "text",
-            "name": "event_name",
-            "title": {
-              "en": "Event",
-              "sv": "Händelse"
-            },
-            "placeholder": {
-              "en": "/garage/temp"
-            }
-          },
-          {
-            "type": "text",
-            "name": "event_data",
-            "title": {
-              "en": "Data",
-              "sv": "Data"
-            },
-            "placeholder": {
-              "en": "19.1"
-            }
-          },
-          {
-            "type": "dropdown",
-            "name": "event_private",
-            "title": {
-              "en": "Visibility",
-              "sv": "Synlighet"
-            },
-            "values": [
-              {
-                "id": "true",
-                "label": {
-                  "en": "Private",
-                  "sv": "Privat"
-                }
-              },
-              {
-                "id": "false",
-                "label": {
-                  "en": "Public",
-                  "sv": "Publikt"
-                }
-              }
-            ]
-          }
-        ]
-      }
-    ]
+      "type": "boolean",
+      "getable": true,
+      "setable": false,
+      "icon": "/drivers/clouddevice/assets/connected.svg"
+    }
   }
 }

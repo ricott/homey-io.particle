@@ -1,0 +1,54 @@
+{
+    "id": "io.particle",
+    "version": "0.9.9",
+    "compatibility": ">=5.0.0",
+    "brandColor": "#01b6f1",
+    "sdk": 3,
+    "name": {
+        "en": "Particle.io",
+        "sv": "Particle.io"
+    },
+    "tags": {
+        "en": [
+            "particle.io",
+            "particle",
+            "cloud",
+            "iot"
+        ],
+        "sv": [
+            "particle.io",
+            "particle",
+            "moln",
+            "cloud",
+            "iot"
+        ]
+    },
+    "description": {
+        "en": "Bridge the gap between the physical and digital world",
+        "sv": "Brygga gapet mellan den fysiska och digitala världen"
+    },
+    "category": [
+        "internet"
+    ],
+    "images": {
+        "large": "/assets/images/large.png",
+        "small": "/assets/images/small.png"
+    },
+    "author": {
+        "name": "Richard Barkestam",
+        "email": "richard@barkestam.se"
+    },
+    "contributing": {
+        "donate": {
+            "paypal": {
+                "username": "RBarkestam",
+                "currency": "EUR"
+            }
+        }
+    },
+    "bugs": {
+        "url": "https://github.com/ricott/homey-io.particle/issues"
+    },
+    "source": "https://github.com/ricott/homey-io.particle",
+    "homeyCommunityTopicId": 20841
+}
