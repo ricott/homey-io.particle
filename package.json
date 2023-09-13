@@ -4,7 +4,7 @@
   "description": "Connect your Particle.io devices to Homey",
   "main": "app.js",
   "dependencies": {
-    "particle-api-js": "^9.4.1",
+    "particle-api-js": "^10.0.0",
     "pretty-ms": "^8.0.0"
   },
   "repository": {
