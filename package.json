@@ -1,10 +1,10 @@
 {
   "name": "homey-io.particle",
-  "version": "0.9.3",
+  "version": "1.0.1",
   "description": "Connect your Particle.io devices to Homey",
   "main": "app.js",
   "dependencies": {
-    "particle-api-js": "^10.0.0",
+    "particle-api-js": "^10.1.0",
     "pretty-ms": "^8.0.0"
   },
   "repository": {

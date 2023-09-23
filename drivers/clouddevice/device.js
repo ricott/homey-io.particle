@@ -196,32 +196,39 @@ class CloudDevice extends Homey.Device {
   }
 
   _updateProperty(key, value) {
-    if (this.isCapabilityValueChanged(key, value)) {
-      this.logMessage(`Updating capability '${key}' from '${this.getCapabilityValue(key)}' to '${value}'`);
-      this.setCapabilityValue(key, value);
+    let self = this;
+    if (self.isCapabilityValueChanged(key, value)) {
+      self.logMessage(`Updating capability '${key}' from '${self.getCapabilityValue(key)}' to '${value}'`);
+      self.setCapabilityValue(key, value)
+        .then(function () {
 
-      let tokens = {};
-      if (key == 'connected') {
+          let tokens = {};
+          if (key == 'connected') {
+            let flowTrigger;
+            if (value === true) {
+              self._device_connected.trigger(self, tokens, {}).catch(error => { self.error(error) });
+              flowTrigger = 'a_device_connected';
+            } else {
+              self._device_disconnected.trigger(self, tokens, {}).catch(error => { self.error(error) });
+              flowTrigger = 'a_device_disconnected';
+            }
 
-        let flowTrigger;
-        if (value === true) {
-          this._device_connected.trigger(this, tokens, {}).catch(error => { this.error(error) });
-          flowTrigger = 'a_device_connected';
-        } else {
-          this._device_disconnected.trigger(this, tokens, {}).catch(error => { this.error(error) });
-          flowTrigger = 'a_device_disconnected';
-        }
+            tokens = {
+              serial: self.getSettings().serial_number,
+              name: self.getName(),
+              ip_address: self.getSettings().last_ip_address
+            }
+            self.driver.triggerFlow(flowTrigger, tokens);
+          }
 
-        tokens = {
-          serial: this.getSettings().serial_number,
-          name: this.getName(),
-          ip_address: this.getSettings().last_ip_address
-        }
-        this.driver.triggerFlow(flowTrigger, tokens);
-      }
+        }).catch(reason => {
+          self.error(reason);
+        });
     } else {
-      //Update value to refresh timestamp in app
-      this.setCapabilityValue(key, value);
+      self.setCapabilityValue(key, value)
+        .catch(reason => {
+          self.error(reason);
+        });
     }
   }
 
