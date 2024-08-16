@@ -1,6 +1,6 @@
 {
     "id": "io.particle",
-    "version": "1.0.2",
+    "version": "1.0.3",
     "compatibility": ">=5.0.0",
     "brandColor": "#01b6f1",
     "sdk": 3,
