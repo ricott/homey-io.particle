@@ -3,7 +3,7 @@
         "en": "Particle Cloud Device",
         "sv": "Particle molnenhet"
     },
-    "class": "other",
+    "class": "service",
     "images": {
         "large": "/drivers/clouddevice/assets/images/large.png",
         "small": "/drivers/clouddevice/assets/images/small.png"
